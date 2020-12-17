@@ -2,6 +2,6 @@
 while true
 do
 sleep 1
-node ./rconnew.js 
+node ./TwitchWhitelist.js 
 echo Verbindung verloren! Versuche neuzustarten...
 done
