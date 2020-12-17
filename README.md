@@ -1,4 +1,4 @@
-# Twitch2Minecraft Whtelist Tool
+# Twitch2Minecraft Whitelist Tool
 Mit diesem Tool könnt ihr Subscriber auf euren Server whitelisten lassen. Die User müssen nur `!link <mcname>` eingeben und sie können auf den Server. Mit `!unlink` werden sie von Server gekickt und von der Whitelist entfernt. 
 
 # Installation
