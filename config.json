@@ -1,0 +1,16 @@
+{
+    "mysqldata": {
+        "connectionLimit": "5",
+        "host": "",
+        "user": "",
+        "password": "",
+        "database": ""
+    },
+    "bottoken": "oauth:",
+    "botusername": "",
+    "twitchchannel": "",
+    "rconip": "",
+    "rconport": 25575,
+    "rconpw": ""
+
+}
