@@ -1,0 +1,42 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.whisper = exports.WhisperError = void 0;
+const await_response_1 = require("../await/await-response");
+const errors_1 = require("../client/errors");
+const notice_1 = require("../message/twitch-types/notice");
+const channel_1 = require("../validation/channel");
+const privmsg_1 = require("./privmsg");
+class WhisperError extends errors_1.MessageError {
+    constructor(targetUsername, failedMessage, message, cause) {
+        super(message, cause);
+        this.targetUsername = targetUsername;
+        this.failedMessage = failedMessage;
+    }
+}
+exports.WhisperError = WhisperError;
+const badNoticeIDs = [
+    "whisper_banned",
+    "whisper_banned_recipient",
+    "whisper_invalid_args",
+    "whisper_invalid_login",
+    "whisper_invalid_self",
+    "whisper_limit_per_min",
+    "whisper_limit_per_sec",
+    "whisper_restricted",
+    "whisper_restricted_recipient",
+];
+async function whisper(conn, username, message) {
+    channel_1.validateChannelName(username);
+    privmsg_1.sendPrivmsg(conn, conn.configuration.username, `/w ${username} ${message}`);
+    return await_response_1.awaitResponse(conn, {
+        failure: (msg) => msg instanceof notice_1.NoticeMessage &&
+            msg.channelName === conn.configuration.username &&
+            badNoticeIDs.includes(msg.messageID),
+        noResponseAction: "success",
+        timeout: 1000,
+        errorType: (msg, cause) => new WhisperError(username, message, msg, cause),
+        errorMessage: `Failed to whisper [${username}]: ${message}`,
+    });
+}
+exports.whisper = whisper;
+//# sourceMappingURL=whisper.js.map
